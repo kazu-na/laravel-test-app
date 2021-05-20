@@ -1,29 +1,25 @@
 @extends('common.layout')
 
 @section('order')
-<div>
+<div class="ml-12">
   <p>ログイン: {{ $user->name }} さん</p>
 </div>
 
-<div>
+<div class="ml-12">
   <h1>注文</h1>
 </div>
 
 <div class="relative flex bg-gray-100 dark:bg-gray-900">
-  <div class="p-6">
-    <div>
-      <h2>商品一覧</h2>
-    </div>
+  <div class="ml-12">
+    <h2>商品一覧</h2>
     <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
       @foreach ($products as $product)
         <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
           <div class="p-6">
-            <div class="flex items-center">
-              <p>店舗名: {{$product->shop->name}}</p>
-            </div>
+            <p>{{$product->product_name}}</p>
             <div class="ml-12">
-              <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                <p>商品名: {{$product->product_name}}</p>
+              <div class="mt-2 text-gray-600 dark:text-gray-400">
+                <p>店舗名: {{$product->shop->name}}</p>
                 <p>商品概要: {{$product->product_description}}</p>
                 <p>商品金額: {{$product->product_amount}}円</p>
                 <form action='{{ route('order_create') }}' method='post'>
@@ -43,7 +39,7 @@
   </div>
 </div>
 
-<div class="p-6">
+<div class="ml-12">
   <h2>注文履歴</h2>
 
   <table width="100%">
