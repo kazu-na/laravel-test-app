@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('shop_id')->constrained();
             $table->string('product_name', 30)->comment('商品名');
             $table->string('product_description')->comment('商品概要');
-            $table->tinyInteger('product_amount')->comment('商品金額');
+            $table->integer('product_amount')->comment('商品金額');
             $table->timestamps();
         });
     }

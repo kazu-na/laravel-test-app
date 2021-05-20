@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('shop_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->tinyInteger('order_amount')->comment('注文金額');
+            $table->integer('order_amount')->comment('注文金額');
             $table->date('order_date')->comment('注文日');
             $table->date('receive_date')->index()->comment('商品受取日');
             $table->tinyInteger('order_state')->default(1)->comment('注文ステータス:1:注文中:2:調理完了:3:受取完了');

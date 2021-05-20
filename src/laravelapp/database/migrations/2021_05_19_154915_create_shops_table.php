@@ -17,9 +17,9 @@ class CreateShopsTable extends Migration
             $table->id();
             $table->string('name', 30)->comment('店舗名');
             $table->string('name_kana', 60)->comment('店舗名カナ');
-            $table->tinyInteger('tel')->comment('電話番号');
+            $table->string('tel', 11)->comment('電話番号');
             $table->string('email')->unique()->comment('メールアドレス');
-            $table->string('password')->comment('パスワード');
+            $table->string('password', 20)->comment('パスワード');
             $table->timestamps();
         });
     }
