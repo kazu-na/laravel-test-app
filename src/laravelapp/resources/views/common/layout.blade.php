@@ -20,9 +20,7 @@
       }
     </style>
   </head>
-  <body>
-    <div>
-      @yield('order')
-    </div>
+  <body class="antialiased">
+    @yield('order')
   </body>
 </html>

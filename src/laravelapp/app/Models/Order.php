@@ -25,4 +25,11 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Product');
     }
+
+    public function messages()
+    {
+        return [
+            'total_amount.required' => '注文合計金額が5,000円を超えてしまいます。',
+        ];
+    }
 }
