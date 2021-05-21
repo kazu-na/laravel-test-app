@@ -101,7 +101,7 @@
   <div class="ml-12" style="margin-bottom: 100px">
     <h2>購入履歴</h2>
 
-    <table width="100%">
+    <table width="100%" id="order-table">
       <thead>
         <tr>
           <th style="text-align: left;">店舗名</th>
@@ -121,7 +121,7 @@
             <td>{{$order->order_date}}</td>
             <td>{{$order->receive_date}}</td>
             <td>{{$order->order_state_text}}</td>
-            <td style="text-align: right;">{{$order->order_amount}}円</td>
+            <td style="text-align: right;">{{$order->order_amount}}</td>
             <td class="text-center">
               @if ($order->order_state == 2)
                 <form action="{{route('order_delete')}}" method="post">
@@ -137,4 +137,39 @@
     </table>
   </div>
 </div>
+
+<script>
+  $(function(){
+    $.extend( $.fn.dataTable.defaults, { 
+      "language": {
+        "sEmptyTable":     "テーブルにデータがありません",
+        "sInfo":           " _TOTAL_ 件中 _START_ から _END_ まで表示",
+        "sInfoEmpty":      " 0 件中 0 から 0 まで表示",
+        "sInfoFiltered":   "（全 _MAX_ 件より抽出）",
+        "sInfoPostFix":    "",
+        "sInfoThousands":  ",",
+        "sLengthMenu":     "_MENU_ 件表示",
+        "sLoadingRecords": "読み込み中...",
+        "sProcessing":     "処理中...",
+        "sSearch":         "検索:",
+        "sZeroRecords":    "一致するレコードがありません",
+        "oPaginate": {
+          "sFirst":    "先頭",
+          "sLast":     "最終",
+          "sNext":     "次",
+          "sPrevious": "前"
+        },
+        "oAria": {
+          "sSortAscending":  ": 列を昇順に並べ替えるにはアクティブにする",
+          "sSortDescending": ": 列を降順に並べ替えるにはアクティブにする"
+        }
+      }
+    });
+
+    $('#order-table').DataTable({
+      columnDefs: [{targets: 1, 'type': 'currency' } , { targets: 5, render: $.fn.dataTable.render.number( ',', '.', 0, '','円' )}],
+      columnDefs: [ { orderable: false, targets: 6 } ]
+    });
+  });
+</script>
 @endsection
