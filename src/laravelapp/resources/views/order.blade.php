@@ -9,6 +9,18 @@
   <h1>注文</h1>
 </div>
 
+@if (session('msg_success'))
+    <div class="bg-success text-center py-3 my-0">
+        {{ session('msg_success') }}
+    </div>
+@endif
+
+@if (session('msg_danger'))
+    <div class="alert alert-danger text-center py-3 my-0">
+        {{ session('msg_danger') }}
+    </div>
+@endif
+
 <div class="relative flex bg-gray-100 dark:bg-gray-900">
   <div class="ml-12" style="margin-bottom: 100px">
     <h2>商品一覧</h2>
@@ -59,7 +71,7 @@
           <td>{{$order->product->product_name}}</td>
           <td>{{$order->order_date}}</td>
           <td>{{$order->receive_date}}</td>
-          <td>{{$order->order_state}}</td>
+          <td>{{$order->order_state_text}}</td>
           <td style="text-align: right;">{{$order->order_amount}}円</td>
           <td class="text-center">
             <form action="{{route('order_delete')}}" method="post">

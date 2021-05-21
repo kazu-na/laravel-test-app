@@ -26,10 +26,17 @@ class Order extends Model
         return $this->belongsTo('App\Models\Product');
     }
 
-    public function messages()
+    public function getOrderStateTextAttribute()
     {
-        return [
-            'total_amount.required' => '注文合計金額が5,000円を超えてしまいます。',
-        ];
+        switch($this->attributes['order_state']) {
+            case 1:
+                return '注文中';
+            case 2;
+                return '調理完了';
+            case 3;
+                return '受取完了';
+            default:
+                return '';
+        }
     }
 }

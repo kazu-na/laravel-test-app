@@ -21,6 +21,13 @@
     </style>
   </head>
   <body class="antialiased">
-    @yield('order')
+    <header>
+      <nav class="my-navbar">
+        <a class="my-navbar-brand" href="#">Lunch Port</a>
+      </nav>
+    </header>
+    <main>
+      @yield('order')
+    </main>
   </body>
 </html>
