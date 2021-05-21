@@ -30,10 +30,12 @@ class Order extends Model
     {
         switch($this->attributes['order_state']) {
             case 1:
+                return '未注文';
+            case 2:
                 return '注文中';
-            case 2;
-                return '調理完了';
             case 3;
+                return '調理完了';
+            case 4;
                 return '受取完了';
             default:
                 return '';

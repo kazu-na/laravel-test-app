@@ -21,4 +21,5 @@ Route::get('/', function () {
 
 Route::get('/order', [OrderController::class, 'index'])->name('order_index');
 Route::post('/order', [OrderController::class, 'create'])->name('order_create');
+Route::post('/order/update', [OrderController::class, 'update'])->name('order_update');
 Route::post('/order/delete', [OrderController::class, 'delete'])->name('order_delete');

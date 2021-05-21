@@ -39,7 +39,7 @@
                 <input type="hidden" name="shop_id" value="{{$product->shop_id}}">
                 <input type="hidden" name="product_id" value="{{$product->id}}">
                 <input type="hidden" name="product_amount" value="{{$product->product_amount}}">
-                <input type='submit' value='注文する'>
+                <input type='submit' value='商品を選択'>
               </form>
             </div>
           </div>
@@ -50,39 +50,91 @@
 </div>
 
 <div class="ml-12" style="margin-bottom: 100px">
-  <h2>注文履歴</h2>
-
-  <table width="100%">
-    <thead>
-      <tr>
-        <th style="text-align: left;">店舗名</th>
-        <th style="text-align: left;">商品名</th>
-        <th style="text-align: left;">注文日</th>
-        <th style="text-align: left;">商品受取日</th>
-        <th style="text-align: left;">注文ステータス</th>
-        <th>注文金額</th>
-        <th>操作</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($orders as $order)
+  <h2>注文内容</h2>
+  @if ($pending_orders->count() == 0)
+    <p>選択された商品はありません。</p>
+  @else
+    <p>この内容でよろしければ「注文する」ボタンを押してください。</p>
+    <table width="100%">
+      <thead>
         <tr>
-          <td>{{$order->shop->name}}</td>
-          <td>{{$order->product->product_name}}</td>
-          <td>{{$order->order_date}}</td>
-          <td>{{$order->receive_date}}</td>
-          <td>{{$order->order_state_text}}</td>
-          <td style="text-align: right;">{{$order->order_amount}}円</td>
-          <td class="text-center">
-            <form action="{{route('order_delete')}}" method="post">
-              @csrf
-              <input type="hidden" name="id" value="{{$order->id}}">
-              <input type="submit" value="注文キャンセル">
-            </form>
-          </td>
+          <th style="text-align: left;">店舗名</th>
+          <th style="text-align: left;">商品名</th>
+          <th style="text-align: left;">注文日</th>
+          <th style="text-align: left;">商品受取日</th>
+          <th style="text-align: left;">注文ステータス</th>
+          <th>注文金額</th>
+          <th>操作</th>
         </tr>
-      @endforeach
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @foreach ($pending_orders as $pending_order)
+          <tr>
+            <td>{{$pending_order->shop->name}}</td>
+            <td>{{$pending_order->product->product_name}}</td>
+            <td>{{$pending_order->order_date}}</td>
+            <td>{{$pending_order->receive_date}}</td>
+            <td>{{$pending_order->order_state_text}}</td>
+            <td style="text-align: right;">{{$pending_order->order_amount}}円</td>
+            <td class="text-center">
+              <form action="{{route('order_delete')}}" method="post">
+                @csrf
+                <input type="hidden" name="id" value="{{$pending_order->id}}">
+                <input type="submit" value="選択キャンセル">
+              </form>
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
+    <div style="margin-top: 30px">
+      <form action='{{ route('order_update') }}' method='post'>
+        @csrf
+        <input type="hidden" name="user_id" value="{{$user->id}}">
+        <input type='submit' value='注文する'>
+      </form>
+    </div>
+  @endif
+</div>
+
+<div class="bg-gray-100 dark:bg-gray-900">
+  <div class="ml-12" style="margin-bottom: 100px">
+    <h2>購入履歴</h2>
+
+    <table width="100%">
+      <thead>
+        <tr>
+          <th style="text-align: left;">店舗名</th>
+          <th style="text-align: left;">商品名</th>
+          <th style="text-align: left;">注文日</th>
+          <th style="text-align: left;">商品受取日</th>
+          <th style="text-align: left;">注文ステータス</th>
+          <th>注文金額</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($orders as $order)
+          <tr>
+            <td>{{$order->shop->name}}</td>
+            <td>{{$order->product->product_name}}</td>
+            <td>{{$order->order_date}}</td>
+            <td>{{$order->receive_date}}</td>
+            <td>{{$order->order_state_text}}</td>
+            <td style="text-align: right;">{{$order->order_amount}}円</td>
+            <td class="text-center">
+              @if ($order->order_state == 2)
+                <form action="{{route('order_delete')}}" method="post">
+                  @csrf
+                  <input type="hidden" name="id" value="{{$order->id}}">
+                  <input type="submit" value="注文キャンセル">
+                </form>
+              @endif
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
 </div>
 @endsection

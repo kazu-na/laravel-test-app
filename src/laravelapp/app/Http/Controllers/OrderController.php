@@ -11,6 +11,12 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
+    // 注文ステータスが'未注文'の値
+    const PENDING_STATUS = 1;
+
+    // 注文ステータスが'注文中'の値
+    const ORDERING_STATUS = 2;
+
     public function index () 
     {
         // ログイン機能未実装のため、userテーブルの1レコード目を取得
@@ -18,15 +24,16 @@ class OrderController extends Controller
 
         // N+1を避ける為にall()ではなくwithを使用しeager_loadする
         $products = Product::with('shop')->get();
-        $orders = Order::with('user', 'shop', 'product')->where('user_id', $user->id)->get();
+        $pending_orders = Order::with('user', 'shop', 'product')->where('user_id', $user->id)->where('order_state', self::PENDING_STATUS)->get();
+        $orders = Order::with('user', 'shop', 'product')->where('user_id', $user->id)->where('order_state', '!=', self::PENDING_STATUS)->get();
 
-        return view('order', compact('user', 'products', 'orders'));
+        return view('order', compact('user', 'products', 'pending_orders', 'orders'));
     }
 
     public function create(Request $request)
     {
         // 注文合計金額が5,000円を超える場合は注文不可にする
-        $total_order_amount = Order::where('user_id', $request->user_id)->where('order_state', 1)->pluck('order_amount')->toArray();
+        $total_order_amount = Order::where('user_id', $request->user_id)->where('order_state', self::PENDING_STATUS)->pluck('order_amount')->toArray();
         $total_order_amount = array_sum($total_order_amount);
         $total_order_amount += $request->product_amount;
 
@@ -42,6 +49,12 @@ class OrderController extends Controller
         $order->order_date = now()->format('Y/m/d');
         $order->receive_date = now()->format('Y/m/d');
         $order->save();
+        return redirect('order')->with('msg_success', '商品を選択しました');
+    }
+
+    public function update(Request $request)
+    {
+        $orders = Order::where('user_id', $request->user_id)->update(['order_state' => self::ORDERING_STATUS]);
         return redirect('order')->with('msg_success', '注文が完了しました');
     }
 

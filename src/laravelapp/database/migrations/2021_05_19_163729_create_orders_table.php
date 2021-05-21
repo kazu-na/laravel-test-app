@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->integer('order_amount')->comment('注文金額');
             $table->date('order_date')->comment('注文日');
             $table->date('receive_date')->index()->comment('商品受取日');
-            $table->tinyInteger('order_state')->default(1)->comment('注文ステータス:1:注文中:2:調理完了:3:受取完了');
+            $table->tinyInteger('order_state')->default(1)->comment('注文ステータス:1:未注文, 2:注文中, 3:調理完了, 4:受取完了');
             $table->timestamps();
         });
     }
