@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'shop_id', 'product_id', 'order_amount', 'order_date', 'receive_date'];
+    protected $fillable = [ 'user_id', 'shop_id', 'product_id', 'order_amount', 'order_date', 'receive_date' ];
 
     public function user()
     {
@@ -28,14 +28,14 @@ class Order extends Model
 
     public function getOrderStateTextAttribute()
     {
-        switch($this->attributes['order_state']) {
+        switch ($this->attributes['order_state']) {
             case 1:
                 return '未注文';
             case 2:
                 return '注文中';
-            case 3;
+            case 3:
                 return '調理完了';
-            case 4;
+            case 4:
                 return '受取完了';
             default:
                 return '';
